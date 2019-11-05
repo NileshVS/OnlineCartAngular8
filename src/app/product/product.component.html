@@ -1,0 +1,70 @@
+<div class="container" style='background-color: #f2f2f2'>
+		<!-- Add new product -->
+      <div class="row">
+    		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
+		      <button type="button" class="btn btn-primary" (click)="addProd()">Add Product</button>
+            </div>
+      </div>
+	  <div class="row" *ngIf="addNewProd === true">
+            <div class="well">
+                  <form [formGroup]="formGrp" (ngSubmit)="saveAddProductForm(formGrp.value)">
+                        <p>All the fields are mandatory*</p>
+                        <div class="form-group">
+                            <input class="form-control input-sm" type="text" name="name" formControlName="name" placeholder="Enter product name" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control input-sm" type="text" name="image" formControlName="image" placeholder="Enter product image" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control input-sm" type="text" name="description" formControlName="description" placeholder="Enter product description" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control input-sm" type="number" name="price" formControlName="price" placeholder="Enter product price" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control input-sm" type="number" name="offerPrice" formControlName="offerPrice" placeholder="Enter product offer price" required>
+                        </div>
+                        <div class="form-group">
+                            <p>Is the product available? :</p><select name="isAvailable" formControlName="isAvailable" required>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <p>Should the product be displayed in Today's Offer Section? :</p>
+                            <select name="isTodayOffer" formControlName="isTodayOffer" required>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                             <p>Subcategory :</p>
+                                <select name="subCategory" formControlName="subCategory" required>
+                                <option *ngFor="let sub of subCategories" value="{{sub.name}}">{{sub.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button [disabled]="!formGrp.valid" type="submit" class="btn btn-success">Add New Product?</button>
+                        </div>
+                        
+                        <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+                  </form>
+            </div>
+	  </div>
+	  <!-- display all products -->
+	  <p>Following are the products available:</p>
+      <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style=" align: center;">
+                  
+                  <div class="panel panel-info" *ngFor= "let prod of products">
+                          <div class="panel-heading">
+                              <h3 class="panel-title">{{prod.name}}</h3>
+                          </div>
+                          <div class="panel-body">
+                              {{prod.description}}       
+                          </div>
+                  </div>
+            </div>
+      </div>
+
+</div>

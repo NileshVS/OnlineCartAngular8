@@ -1,0 +1,23 @@
+<app-onclick></app-onclick>
+      <select>
+        <option *ngFor="let course of courses" value="{{course}}">{{course}}</option>
+      </select>
+      
+    <div class="container">
+      <app-parent></app-parent>
+    </div>
+    <div class="container">
+      <h1 *ngIf="name.length >= 1; else error"> If condition works</h1>
+      <ng-template #error>
+        <h1>Else condition works</h1>
+      </ng-template>
+    </div>
+    <div class="container">
+      <button class="btn btn-default" (click)="selection='home'">Home</button>
+      <button class="btn btn-default" (click)="selection='contact'">Contact</button>
+      <div [ngSwitch]="selection">
+          <h1 *ngSwitchCase="'home'">Home</h1>
+          <h1 *ngSwitchCase="'contact'">Contact</h1>
+          <h1 *ngSwitchDefault>This is default section, click on Home or Contact button to change the section</h1>
+      </div>
+    </div>
