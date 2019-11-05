@@ -1,8 +1,8 @@
-<div class="container" style='background-color: #f2f2f2'>
+<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;'>
 		<!-- Add new product -->
       <div class="row">
-    		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
-		      <button type="button" class="btn btn-primary" (click)="addProd()">Add Product</button>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
+		        <button type="button" class="btn btn-primary" (click)="addProd()">Add Product</button>
             </div>
       </div>
 	  <div class="row" *ngIf="addNewProd === true">
@@ -52,16 +52,30 @@
             </div>
 	  </div>
 	  <!-- display all products -->
-	  <p>Following are the products available:</p>
       <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style=" align: center;">
-                  
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                
+                <p>Following are the products available:</p>  
                   <div class="panel panel-info" *ngFor= "let prod of products">
                           <div class="panel-heading">
-                              <h3 class="panel-title">{{prod.name}}</h3>
+                              <h3 class="panel-title">{{prod.name | uppercase}}</h3>
+                             
+                              <!-- <div class="alert alert-warning" *ngIf="{{prod.isTodayOffer}} == true">
+                                  <strong>Offer available!</strong> Offer Price: {{prod.offerPrice  | currency:'INR'}}
+                              </div> -->
+                              
                           </div>
                           <div class="panel-body">
-                              {{prod.description}}       
+                              {{prod.description}}
+                              <ul>
+                                  <li>Price: {{prod.price  | currency:'INR'}}</li>
+                                  <!-- <li>Offer Price: {{prod.offerPrice  | currency:'INR'}}</li> -->
+                                  <!-- <li>Category: {{prod.category.catName}}</li> -->
+                              </ul>
+                              
+                              <button type="button" class="btn btn-default">Add to cart</button>
+                              
                           </div>
                   </div>
             </div>

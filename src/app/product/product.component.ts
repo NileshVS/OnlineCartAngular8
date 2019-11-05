@@ -11,7 +11,7 @@ export class ProductComponent implements OnInit {
   addNewProd: Boolean = undefined;
   private products;
   private subCategories;
-  productSuccessMsg;
+  
   constructor(private ps: productServices,  private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -36,7 +36,6 @@ export class ProductComponent implements OnInit {
       this.subCategories = item;
     })
   }
-
   //Toggles Add Product option 
   addProd(){
     this.addNewProd = true;
