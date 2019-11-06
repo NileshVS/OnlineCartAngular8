@@ -20,6 +20,7 @@ import { CareerComponent } from './career/career.component';
 import { ProductComponent } from './product/product.component';
 import {HttpClientModule} from  '@angular/common/http';
 import { AddProductComponent } from './add-product/add-product.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AddProductComponent } from './add-product/add-product.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
-    HttpClientModule
+    HttpClientModule,
+    ModalModule.forRoot()
   ],
   providers: [CourseDetails],
   bootstrap: [AppComponent]

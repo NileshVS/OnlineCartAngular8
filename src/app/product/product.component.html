@@ -45,9 +45,8 @@
                         </div>
                         <div class="form-group">
                             <button [disabled]="!formGrp.valid" type="submit" class="btn btn-success">Add New Product?</button>
+                            <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
                         </div>
-                        
-                        <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
                   </form>
             </div>
 	  </div>
@@ -74,7 +73,16 @@
                                   <!-- <li>Category: {{prod.category.catName}}</li> -->
                               </ul>
                               
-                              <button type="button" class="btn btn-default">Add to cart</button>
+                              <!-- <button type="button" class="btn btn-default">Add to cart</button> -->
+                              <button type="button" class="btn btn-danger"  (click)="deleteProduct(prod)">Delete</button>
+                              <div class="well" *ngIf="deleteProd == true && prod._id == deleteProdId">
+                                  <p>Are you sure you want to delete the {{prod.name}}?</p> <br>
+                                    <button type="button" class="btn btn-danger" (click)="proceedDeleteProduct()">Yes</button>
+                              
+                                    <button type="button" class="btn btn-success"  (click)="cancelDeleteProduct()">No</button>
+
+                              </div>
+
                               
                           </div>
                   </div>

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {Validators,FormBuilder,FormGroup} from '@angular/forms';
 import {productServices} from '../shared/services/app.services';
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -9,8 +10,11 @@ import {productServices} from '../shared/services/app.services';
 export class ProductComponent implements OnInit {
   formGrp: FormGroup;
   addNewProd: Boolean = undefined;
+  deleteProd:Boolean = undefined;
+  deleteProdId= undefined;
+  deleteProdName:String = undefined;
   private products;
-  private subCategories;
+  private  subCategories;
   
   constructor(private ps: productServices,  private fb: FormBuilder) {}
 
@@ -28,6 +32,7 @@ export class ProductComponent implements OnInit {
 
     //Displays all products on the products page
     this.ps.productDetails().subscribe(item => {
+      // console.log(item);
       this.products = item;
     });
 
@@ -36,7 +41,8 @@ export class ProductComponent implements OnInit {
       this.subCategories = item;
     })
   }
-  //Toggles Add Product option 
+  // -----------------Button toggles start from here--------------------------
+  //Displays Add Product option 
   addProd(){
     this.addNewProd = true;
   }
@@ -44,11 +50,43 @@ export class ProductComponent implements OnInit {
   cancel(){
     this.addNewProd = false;
   }
-  
+
+  //Displays delete warning well for products
+  deleteProduct(prod){
+    this.deleteProd = true;
+    this.deleteProdId = prod._id;
+  }
+
+  //Hides delete warning well for products
+  cancelDeleteProduct(){
+    this.deleteProd = undefined;
+  }
+
+  // -----------------Button toggles end here--------------------------
+
+  // -----------------API triggers start from here--------------------------
   //Pushes New Product to API
   saveAddProductForm(para){
     this.ps.addNewProduct(para).subscribe( item => {
       console.log(item);
+       //Displays all products on the products page
+    this.ps.productDetails().subscribe(item => {
+      // console.log(item);
+      this.products = item;
+    });
+    });
+
+    alert({
+      name: this.products.data.name
     });
   }
+
+
+  //Deletes Product
+  proceedDeleteProduct(){
+    this.ps.deleteProduct(this.deleteProdId).subscribe( item =>{
+      console.log(item);
+    })
+  }
+
 }

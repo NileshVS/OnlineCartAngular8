@@ -8,6 +8,7 @@ export class productServices{
     private allProducts = "http://localhost:4000/api/all-product";
     private allSubCategory = "http://localhost:4000/api/all-subcategory";
     private newProduct = "http://localhost:4000/api/add-new-product";
+    private deleteProductURL = "http://localhost:4000/api/delete-product";
     constructor(private http: HttpClient){
         this.httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
     }
@@ -21,5 +22,8 @@ export class productServices{
 
     addNewProduct(data){
         return this.http.post(this.newProduct, JSON.stringify(data), {headers: this.httpHeader});
+    }
+    deleteProduct(id){
+        return this.http.delete(this.deleteProductURL + "/" + id, {headers: this.httpHeader})
     }
 }
