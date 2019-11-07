@@ -9,8 +9,10 @@ export class productServices{
     private allSubCategory = "http://localhost:4000/api/all-subcategory";
     private newProduct = "http://localhost:4000/api/add-new-product";
     private deleteProductURL = "http://localhost:4000/api/delete-product";
+    private fileUploadURL = "http://localhost:4000/api/image-upload"; 
     constructor(private http: HttpClient){
         this.httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
+        this.httpHeader.append('Content-Type', 'application/file');
     }
     productDetails(){
         return this.http.get(this.allProducts, {headers: this.httpHeader});
@@ -25,5 +27,9 @@ export class productServices{
     }
     deleteProduct(id){
         return this.http.delete(this.deleteProductURL + "/" + id, {headers: this.httpHeader})
+    }
+    uploadImage(img){
+        alert(JSON.stringify(img));
+        return this.http.post(this.fileUploadURL , img);
     }
 }

@@ -15,6 +15,7 @@ export class ProductComponent implements OnInit {
   deleteProdName:String = undefined;
   private products;
   private  subCategories;
+  private seletedFile;
   
   constructor(private ps: productServices,  private fb: FormBuilder) {}
 
@@ -64,9 +65,28 @@ export class ProductComponent implements OnInit {
 
   // -----------------Button toggles end here--------------------------
 
+  //-----------------File upload---------------
+
+  fileUpload(event){
+    this.seletedFile = event.target.files[0];
+    console.log(this.seletedFile);
+    // console.log(this.seletedFile);
+    if (event.target.files && event.target.files.length > 0){
+      let fileup= new FormData();
+      fileup.append('imgUrl', this.seletedFile, this.seletedFile.name);
+      this.ps.uploadImage(fileup).subscribe( data => {
+      console.log(data);
+    }); 
+    }
+  }
+
+  //-----------------File upload ends---------------
+
+
   // -----------------API triggers start from here--------------------------
   //Pushes New Product to API
   saveAddProductForm(para){
+    console.log(para);
     this.ps.addNewProduct(para).subscribe( item => {
       console.log(item);
        //Displays all products on the products page
@@ -76,9 +96,7 @@ export class ProductComponent implements OnInit {
     });
     });
 
-    alert({
-      name: this.products.data.name
-    });
+    alert("Product added successfully");
   }
 
 
@@ -86,7 +104,12 @@ export class ProductComponent implements OnInit {
   proceedDeleteProduct(){
     this.ps.deleteProduct(this.deleteProdId).subscribe( item =>{
       console.log(item);
-    })
+      alert(`Product is successfully deleted`);
+    });
+    this.ps.productDetails().subscribe(item => {
+      // console.log(item);
+      this.products = item;
+    });
   }
 
 }
