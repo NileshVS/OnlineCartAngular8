@@ -16,6 +16,7 @@ export class ProductComponent implements OnInit {
   private products;
   private  subCategories;
   private seletedFile;
+  private latestSelectFileUrl;
   
   constructor(private ps: productServices,  private fb: FormBuilder) {}
 
@@ -69,13 +70,14 @@ export class ProductComponent implements OnInit {
 
   fileUpload(event){
     this.seletedFile = event.target.files[0];
-    console.log(this.seletedFile);
     // console.log(this.seletedFile);
     if (event.target.files && event.target.files.length > 0){
       let fileup= new FormData();
       fileup.append('imgUrl', this.seletedFile, this.seletedFile.name);
       this.ps.uploadImage(fileup).subscribe( data => {
-      console.log(data);
+      // console.log(data);
+      this.latestSelectFileUrl = data;
+      // console.log(this.latestSelectFileUrl);
     }); 
     }
   }

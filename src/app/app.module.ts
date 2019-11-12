@@ -21,6 +21,7 @@ import { ProductComponent } from './product/product.component';
 import {HttpClientModule} from  '@angular/common/http';
 import { AddProductComponent } from './add-product/add-product.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ContactComponent,
     CareerComponent,
     ProductComponent,
-    AddProductComponent
+    AddProductComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

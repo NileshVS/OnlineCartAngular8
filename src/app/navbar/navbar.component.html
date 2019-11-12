@@ -12,14 +12,16 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-left">
             <li ><a routerLink="/home">Home</a></li>
             <li><a routerLink="/product">Products</a></li>
-            <li><a routerLink="/about">About</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a routerLink="/login">Login</a></li>
+            <li><a href="" (click) = "LogOut()">Logout</a></li>
         </ul>
     </div><!-- /.navbar-collapse -->
 </nav>
 <div class="container" style="margin-top: 80px;">
-    <router-outlet></router-outlet>
-    
+    <router-outlet></router-outlet>    
 </div>

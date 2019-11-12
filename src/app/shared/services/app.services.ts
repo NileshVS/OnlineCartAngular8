@@ -29,7 +29,7 @@ export class productServices{
         return this.http.delete(this.deleteProductURL + "/" + id, {headers: this.httpHeader})
     }
     uploadImage(img){
-        alert(JSON.stringify(img));
+        // alert(JSON.stringify(img));
         return this.http.post(this.fileUploadURL , img);
     }
 }
