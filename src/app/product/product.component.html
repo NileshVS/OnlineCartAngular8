@@ -1,10 +1,11 @@
 <div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;'>
+    <!-- Search module -->
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
            
             <input type="search" [(ngModel)]="searchFilter.name" class="form-control" placeholder="Enter product name to search"><br>
             <div *ngIf="searchFilter.name">
-                    <div class="panel panel-info" *ngFor= "let prod of PP | filterBy : searchFilter">
+                    <div class="panel panel-info" *ngFor= "let prod of pgData.productData | filterBy : searchFilter">
                             <div class="panel-heading">
                                 <h3 class="panel-title">{{prod.name | uppercase}}</h3> 
                             </div>
@@ -68,11 +69,13 @@
                                                   <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
                                               </div>
                                         </form>
-                                </div>
-                                
-                            </div>
+                                </div>            
+                            </div>                            
                     </div>
-            </div>
+                    <div class="panel panel-danger" *ngIf="(pgData.productData | filterBy: searchFilter).length === 0">
+                        <strong>No matching results found!</strong> <br>Press Esc to continue...
+                    </div>                    
+            </div>                                    
         </div>
     </div>
 		<!-- Add new product -->
@@ -80,43 +83,46 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
 		        <button type="button" class="btn btn-primary" (click)="addProd()">Add New Product</button>
             </div>
-      </div>
+      </div><br>
 	  <div class="row" *ngIf="addNewProd === true">
             <div class="well">
                   <form [formGroup]="formGrp" (ngSubmit)="saveNewProduct(formGrp.value)">
                         <p>All the fields are mandatory*</p>
                         <div class="form-group">
-                            <input class="form-control input-sm" type="text" name="name" formControlName="name" placeholder="Enter product name" required>
+                            <input class="form-control input-sm" type="text" formControlName="name" placeholder="Enter product name" required>
                         </div>
                         <div class="form-group">
                             <input class="form-control input-sm" type="file" (change)="fileUpload($event)" required>
                             <p>Image size must be less than 5 MB*</p>
                         </div>
                         <div class="form-group">
-                            <input class="form-control input-sm" type="text" name="description" formControlName="description" placeholder="Enter product description" required>
+                                <input class="form-control input-sm" type="text" formControlName="productImage" value="{{this.fileURL}}">
+                            </div>
+                        <div class="form-group">
+                            <input class="form-control input-sm" type="text" formControlName="description" placeholder="Enter product description" required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control input-sm" type="number" name="price" formControlName="price" placeholder="Enter product price" required>
+                            <input class="form-control input-sm" type="number" formControlName="price" placeholder="Enter product price" required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control input-sm" type="number" name="offerPrice" formControlName="offerPrice" placeholder="Enter product offer price" required>
+                            <input class="form-control input-sm" type="number" formControlName="offerPrice" placeholder="Enter product offer price" required>
                         </div>
                         <div class="form-group">
-                            <p>Is the product available? :</p><select name="isAvailable" formControlName="isAvailable" required>
+                            <p>Is the product available? :</p><select formControlName="isAvailable" required>
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <p>Should the product be displayed in Today's Offer Section? :</p>
-                            <select name="isTodayOffer" formControlName="isTodayOffer" required>
+                            <select formControlName="isTodayOffer" required>
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
                         </div>
                         <div class="form-group">
                              <p>Subcategory :</p>
-                                <select name="subCategory" formControlName="subCategory" required>
+                                <select formControlName="subCategory" required>
                                 <option *ngFor="let sub of subCategories" value="{{sub.name}}">{{sub.name}}</option>
                             </select>
                         </div>
@@ -128,12 +134,12 @@
 
             </div>
       </div>
-
+      <!-- Pagination -->
       <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!searchFilter.name">
                 
-                    <p>Following are the products available:</p>  
-                      <div class="panel panel-info" *ngFor= "let prod of PP |  paginate: { itemsPerPage: IPP, currentPage: p, totalItems: TI }">
+                    <p><strong>Total products currently available: {{pgData.totalProducts}}</strong></p> 
+                      <div class="panel panel-info" *ngFor= "let prod of pgData.productData |  paginate: { itemsPerPage: pgData.perPage, currentPage: p, totalItems: pgData.totalProducts }">
                               <div class="panel-heading">
                                   <h3 class="panel-title">{{prod.name | uppercase}}</h3> 
                               </div>

@@ -15,16 +15,18 @@ export class ProductComponent implements OnInit {
   deleteProdId= undefined;
   updateProd:Boolean = undefined;
   updateProdId = undefined;
-  
-  private imageDefaultValue;
-  private  subCategories;
-  private categories;
-  private seletedFile;
 
-  IPP; //items per page
-  public p:number=1; //currentpage
-  TI; //total items
-  PP; //pagination products
+
+  subCategories;
+  categories;
+  seletedFile;
+  fileURL;
+
+  pgData;
+  // public IPP = this.pgData.perPage; //items per page
+  p:number=1; //currentpage
+  // public TI = this.pgData.totalProducts; //total items
+  // public PP = this.pgData.productData; //pagination products
   
   searchFilter: any = {name: ''};
 
@@ -33,6 +35,7 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.formGrp= this.fb.group({
       'name': [""],
+      'productImage': ["randomdata"],
       'description': [""],
       'price': [""],
       'offerPrice': [""],
@@ -63,9 +66,8 @@ export class ProductComponent implements OnInit {
     //pagination
     this.ps.prodPagination().subscribe( item => {
       // console.log(item);
-      this.IPP = item.perPage;
-      this.PP =item.productData;
-      this.TI = item.totalProducts;
+      this.pgData = item;
+      console.log(this.pgData);
     });
     
   }
@@ -105,7 +107,12 @@ export class ProductComponent implements OnInit {
     if (event.target.files && event.target.files.length > 0){
       let fileup= new FormData();
       fileup.append('imgUrl', this.seletedFile, this.seletedFile.name);
-      this.ps.uploadImage(fileup).subscribe(); 
+      // let test = fileup.get('imgUrl');
+      // console.log(test);
+      this.ps.uploadImage(fileup).subscribe( data => {
+        this.fileURL = data;
+        console.log(this.fileURL);
+      });
     }
   }
 
@@ -117,11 +124,11 @@ export class ProductComponent implements OnInit {
   saveNewProduct(para){
     // console.log(para); //data from ngForm
     this.ps.addNewProduct(para).subscribe( item => {
-      // console.log(item);
+      console.log(item);
        //Displays all products on the products page
-    this.ps.productDetails().subscribe(item => {
-      this.PP = item;
-    });
+    // this.ps.productDetails().subscribe(item => {
+    //   this.PP = item;
+    // });
     });
     alert("New product added successfully");
     this.ngOnInit();
@@ -134,7 +141,7 @@ export class ProductComponent implements OnInit {
       // console.log(item);
       alert(`Product is successfully deleted`);
       this.ps.productDetails().subscribe(item => {
-        this.PP = item;
+        this.pgData = item;
       });
       this.ngOnInit();
     });
@@ -145,7 +152,7 @@ export class ProductComponent implements OnInit {
     this.ps.updateProduct(data, this.updateProdId).subscribe( item => {
       // console.log(item);
       this.ps.productDetails().subscribe(item => {
-        this.PP = item;
+        this.pgData = item;
       });
       });
       alert("Product updated successfully");
