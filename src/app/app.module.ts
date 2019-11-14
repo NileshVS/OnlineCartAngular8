@@ -8,8 +8,9 @@ import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import { ProductComponent } from './product/product.component';
 import {HttpClientModule} from  '@angular/common/http';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { LoginComponent } from './login/login.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
-    ModalModule.forRoot()
+    NgxPaginationModule,
+    FilterPipeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
