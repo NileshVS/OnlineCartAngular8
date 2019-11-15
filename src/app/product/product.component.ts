@@ -56,11 +56,6 @@ export class ProductComponent implements OnInit {
       this.subCategories = item;
     });
 
-    //lists all categories 
-    this.ps.categoryDetails().subscribe( item =>{
-      this.categories = item;
-    });
-
     //pagination
     this.ps.prodPagination().subscribe( item => {
       // console.log(item);
@@ -139,6 +134,11 @@ export class ProductComponent implements OnInit {
     this.ps.deleteProduct(this.deleteProdId).subscribe( item =>{
       // console.log(item);
       alert(`Product is successfully deleted`);
+
+      // this.ps.TempImgDelete(this.fileURL).subscribe( item =>{
+      //   console.log(item);
+      // });
+
       this.ps.productDetails().subscribe(item => {
         this.pgData = item;
       });

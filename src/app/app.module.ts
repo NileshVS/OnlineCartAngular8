@@ -11,6 +11,7 @@ import {HttpClientModule} from  '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { FilterPipeModule } from 'ngx-filter-pipe';
+import { SubcategoryComponent } from './subcategory/subcategory.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FilterPipeModule } from 'ngx-filter-pipe';
     NavbarComponent,
     HomeComponent,
     ProductComponent,
-    LoginComponent
+    LoginComponent,
+    SubcategoryComponent
   ],
   imports: [
     BrowserModule,

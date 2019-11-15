@@ -16,6 +16,9 @@ export class productServices{
     private fileUploadURL = "http://localhost:4000/api/image-upload"; 
     private fileUploadedTempURL = "http://localhost:4000/api/image-retrieve";
     private fileDeleteTempURL = "http://localhost:4000/api/image-delete";
+    private deleteCategoryURL = "http://localhost:4000/api/delete-category";
+    private addCategoryURL="http://localhost:4000/api/add-new-category";
+
     constructor(private http: HttpClient){
         this.httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
         this.httpHeader.append('Content-Type', 'application/file');
@@ -52,7 +55,13 @@ export class productServices{
     TempImgRetrive(){
         return this.http.get(this.fileUploadedTempURL, {headers: this.httpHeader});
     }
-    TempImgDelete(){
-        return this.http.delete(this.fileDeleteTempURL, {headers: this.httpHeader});
+    TempImgDelete(image){
+        return this.http.delete(this.fileDeleteTempURL + "/" + image, {headers: this.httpHeader});
+    }
+    deleteCategory(id){
+        return this.http.delete(this.deleteCategoryURL + "/" + id, {headers: this.httpHeader});
+    }
+    addNewCategory(data){
+        return this.http.post(this.addCategoryURL, JSON.stringify(data), {headers: this.httpHeader});
     }
 }

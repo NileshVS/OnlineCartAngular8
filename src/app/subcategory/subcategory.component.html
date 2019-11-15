@@ -1,0 +1,74 @@
+<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;'>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <button type="button" class="btn btn-danger" (click)="addNewCatergory()">Add New Category</button><br>
+            <div class="well" *ngIf="newCategory == true">
+                <form [formGroup] = "categoryFrmGrp" (ngSubmit)="addCategory(categoryFrmGrp.value)">
+                    <div class="form-group">
+                        <label for="">Add new catergory:</label>
+                        <input type="text" class="form-control" formControlName="catName" placeholder="Input new category name" required>
+                    </div>
+                        <button type="submit" [disabled]="!categoryFrmGrp.valid" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-danger" (click)= "cancelCategory()">Cancel</button>
+                </form>
+            </div>
+               
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <button type="button" class="btn btn-danger" (click)="addNewSubcategory()">Add New Subcategory</button><br>
+            <div class="well" *ngIf="newSubcategory == true">
+                <form [formGroup] = "subcategoryFrmGrp" (ngSubmit)="addSubcategory(subcategoryFrmGrp.value)">
+                    <div class="form-group">
+                        <label for="">Add new subcatergory:</label>
+                            <input type="text" class="form-control" formControlName="name" placeholder="Input new subcategory name">
+                        <label for="">Select catergory:</label>
+                            <select name="" >
+                                <option value=""></option>
+                            </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-danger" (click)= "cancelSubcategory()">Cancel</button>
+                </form>
+            </div>   
+        </div>            
+    </div>
+</div><br>
+<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;'>
+        <div class="row">
+                <!-- category search -->
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <input type="search" [(ngModel)]="searchCat.catName" class="form-control" placeholder="Enter Category Name To Search">                        
+                        <div class="panel panel-primary" *ngIf="searchCat.catName">
+                            <div *ngFor="let cat of categories | filterBy: searchCat">
+                                    <p>{{cat.catName}}</p> 
+                                    <button type="button" class="btn btn-danger" (click)="confirmDeleteCategory(cat)">Delete Category</button>
+                                    <div class="well" *ngIf="delCategory == true && delCategoryId == cat._id">
+                                        <p>This cannot be undone. Proceed?:</p>
+                                        <button type="button" class="btn btn-danger" (click)="deleteCategory()">Delete Category</button>
+                                        <button type="button" class="btn btn-success" (click)="canDeleteCategory()">Cancel</button>
+                                    </div>
+                            </div>
+                            <div *ngIf="(categories | filterBy: searchCat).length === 0">
+                                <div class="alert alert-danger"><strong>No match found, Press Esc...</strong> </div>
+                            </div>                                                   
+                        </div>
+                        <!-- Stored categories -->
+                    <p><strong>Total Stored Categories:</strong></p>
+                    <p><strong>Currently Stored Categories:</strong></p>
+                    <div *ngIf="!searchCat.catName">
+                        <div class="panel panel-info" *ngFor="let cat of categories">
+                            <p>{{cat.catName}}</p> 
+                            <button type="button" class="btn btn-danger" (click)="confirmDeleteCategory(cat)">Delete Category</button>
+                            <div class="well" *ngIf="delCategory == true && delCategoryId == cat._id">
+                                <p>This cannot be undone. Proceed?:</p>
+                                <button type="button" class="btn btn-danger" (click)="deleteCategory()">Delete Category</button>
+                                <button type="button" class="btn btn-success" (click)="canDeleteCategory()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <p>Stored Subcategories:</p>
+                </div>
+            </div>        
+</div>
