@@ -10,6 +10,7 @@
                                 <h3 class="panel-title">{{prod.name | uppercase}}</h3> 
                             </div>
                             <div class="panel-body">
+                                <img src="{{prod.productImage}}" class="img-responsive"><br>
                                 <ul>
                                     <li><span style="font-weight: bold;">Description</span>: {{prod.description}}</li>
                                     <li><span style="font-weight: bold;">Price</span>: {{prod.price  | currency:'INR'}}</li>
@@ -90,28 +91,34 @@
                         <p>All the fields are mandatory*</p>
                         <div class="form-group">
                             <input class="form-control input-sm" type="text" formControlName="name" placeholder="Enter product name" required>
+                            <div class="alert alert-danger" *ngIf="formGrp.get('name').hasError('required') && formGrp.get('name').touched"><strong>Enter Name*</strong> </div>
                         </div>
                         <div class="form-group">
                             <input class="form-control input-sm" type="file" (change)="fileUpload($event)" required>
                             <p>Image size must be less than 5 MB*</p>
                         </div>
                         <div class="form-group">
-                                <input class="form-control input-sm" type="text" formControlName="productImage" value="{{this.fileURL}}">
+                                <input class="form-control input-sm" type="text" formControlName="productImage" value="{{this.fileURL}}" placeholder="Image URL">
+                                <div class="alert alert-danger" *ngIf="formGrp.get('productImage').hasError('required') && formGrp.get('productImage').touched"><strong>Enter Image URL*</strong> </div>
                             </div>
                         <div class="form-group">
                             <input class="form-control input-sm" type="text" formControlName="description" placeholder="Enter product description" required>
+                            <div class="alert alert-danger" *ngIf="formGrp.get('description').hasError('required') && formGrp.get('description').touched"><strong>Enter Description*</strong> </div>
                         </div>
                         <div class="form-group">
                             <input class="form-control input-sm" type="number" formControlName="price" placeholder="Enter product price" required>
+                            <div class="alert alert-danger" *ngIf="formGrp.get('price').hasError('required') && formGrp.get('price').touched"><strong>Enter Price*</strong> </div>
                         </div>
                         <div class="form-group">
                             <input class="form-control input-sm" type="number" formControlName="offerPrice" placeholder="Enter product offer price" required>
+                            <div class="alert alert-danger" *ngIf="formGrp.get('offerPrice').hasError('required') && formGrp.get('offerPrice').touched"><strong>Enter OfferPrice*</strong> </div>
                         </div>
                         <div class="form-group">
                             <p>Is the product available? :</p><select formControlName="isAvailable" required>
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
+                            <div class="alert alert-danger" *ngIf="formGrp.get('isAvailable').hasError('required') && formGrp.get('isAvailable').touched"><strong>Enter Availablility*</strong> </div>
                         </div>
                         <div class="form-group">
                             <p>Should the product be displayed in Today's Offer Section? :</p>
@@ -119,12 +126,14 @@
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
+                            <div class="alert alert-danger" *ngIf="formGrp.get('isTodayOffer').hasError('required') && formGrp.get('isTodayOffer').touched"><strong>Enter Is Today Offer*</strong> </div>
                         </div>
                         <div class="form-group">
                              <p>Subcategory :</p>
                                 <select formControlName="subCategory" required>
                                 <option *ngFor="let sub of subCategories" value="{{sub.name}}">{{sub.name}}</option>
                             </select>
+                            <div class="alert alert-danger" *ngIf="formGrp.get('subCategory').hasError('required') && formGrp.get('subCategory').touched"><strong>Enter Subcategory*</strong> </div>
                         </div>
                         <div class="form-group">
                             <button [disabled]="!formGrp.valid" type="submit" class="btn btn-success">Add New Product?</button>
@@ -144,6 +153,7 @@
                                   <h3 class="panel-title">{{prod.name | uppercase}}</h3> 
                               </div>
                               <div class="panel-body">
+                                    <img src="{{prod.productImage}}" class="img-responsive"><br>
                                   <ul>
                                       <li><span style="font-weight: bold;">Description</span>: {{prod.description}}</li>
                                       <li><span style="font-weight: bold;">Price</span>: {{prod.price  | currency:'INR'}}</li>
@@ -168,33 +178,33 @@
                                         <form [formGroup]="formGrpUpdate" (ngSubmit)="updateNewProduct(formGrpUpdate.value)">
                                                 <p>Enter the following mandatory fields to update*</p>
                                                 <div class="form-group">
-                                                    <input class="form-control input-sm" type="text" name="name" formControlName="name" placeholder="Enter product name" required>
+                                                    <input class="form-control input-sm" type="text" name="name" formControlName="name" placeholder="Enter product name" value="{{this.updateProdData.name}}" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control input-sm" type="text" name="description" formControlName="description" placeholder="Enter product description" required>
+                                                    <input class="form-control input-sm" type="text" name="description" formControlName="description" placeholder="Enter product description" value="{{this.updateProdData.description}}" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control input-sm" type="number" name="price" formControlName="price" placeholder="Enter product price" required>
+                                                    <input class="form-control input-sm" type="number" name="price" formControlName="price" placeholder="Enter product price" value="{{this.updateProdData.price}}" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control input-sm" type="number" name="offerPrice" formControlName="offerPrice" placeholder="Enter product offer price" required>
+                                                    <input class="form-control input-sm" type="number" name="offerPrice" formControlName="offerPrice" placeholder="Enter product offer price" value="{{this.updateProdData.offerPrice}}" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <p>Is the product available? :</p><select name="isAvailable" formControlName="isAvailable" required>
+                                                    <p>Is the product available? :</p><select name="isAvailable" formControlName="isAvailable" value="{{this.updateProdData.isAvailable}}" required>
                                                         <option value="true">Yes</option>
                                                         <option value="false">No</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <p>Should the product be displayed in Today's Offer Section? :</p>
-                                                    <select name="isTodayOffer" formControlName="isTodayOffer" required>
+                                                    <select name="isTodayOffer" formControlName="isTodayOffer" value="{{this.updateProdData.isTodayOffer}}" required>
                                                         <option value="true">Yes</option>
                                                         <option value="false">No</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                      <p>Subcategory :</p>
-                                                        <select name="subCategory" formControlName="subCategory" required>
+                                                        <select name="subCategory" formControlName="subCategory" value="{{this.updateProdData.subCategory}}" required>
                                                         <option *ngFor="let sub of subCategories" value="{{sub.name}}">{{sub.name}}</option>
                                                     </select>
                                                 </div>

@@ -8,40 +8,38 @@ import {productServices} from '../shared/services/app.services';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  formGrp: FormGroup;
-  formGrpUpdate: FormGroup;
-  addNewProd: Boolean = undefined;
-  deleteProd:Boolean = undefined;
-  deleteProdId= undefined;
-  updateProd:Boolean = undefined;
-  updateProdId = undefined;
+  formGrp: FormGroup; //variable for formgroup of adding new product
+  formGrpUpdate: FormGroup; //variable for formgroup of updating product
+  addNewProd: Boolean = undefined; // stores boolean value for button toggle 
+  deleteProd:Boolean = undefined; // stores boolean value for button toggle
+  deleteProdId= undefined; // stores object ID value for deleting 
+  updateProd:Boolean = undefined; // stores boolean value for button toggle
+  updateProdId = undefined; // stores object ID value for updating 
+  updateProdData; // stores product object value for updating 
 
 
-  subCategories;
-  categories;
-  seletedFile;
-  fileURL;
+  subCategories; //stores all subcategories as an object 
+  categories; //stores all categories as an object 
+  seletedFile; //stores file as an object 
+  fileURL; //stores uploaded file URL as text 
 
-  pgData;
-  // public IPP = this.pgData.perPage; //items per page
-  p:number=1; //currentpage
-  // public TI = this.pgData.totalProducts; //total items
-  // public PP = this.pgData.productData; //pagination products
+  pgData; //stores all products from pagination API as array of object 
+  p:number=1; //currentpage default value for pagination buttons
   
-  searchFilter: any = {name: ''};
+  searchFilter: any = {name: ''}; //searchFilter model for custom pipe
 
   constructor(private ps: productServices,  private fb: FormBuilder) {}
 
   ngOnInit() {
     this.formGrp= this.fb.group({
-      'name': [""],
-      'productImage': ["randomdata"],
-      'description': [""],
-      'price': [""],
-      'offerPrice': [""],
-      'isAvailable': [""],
-      'isTodayOffer': [""],
-      'subCategory':[""]
+      'name': ["", Validators.required],
+      'productImage': ["", Validators.required],
+      'description': ["", Validators.required],
+      'price': ["", Validators.required],
+      'offerPrice': ["", Validators.required],
+      'isAvailable': ["", Validators.required],
+      'isTodayOffer': ["", Validators.required],
+      'subCategory':["", Validators.required]
     });
 
     this.formGrpUpdate = this.fb.group({
@@ -67,7 +65,6 @@ export class ProductComponent implements OnInit {
     this.ps.prodPagination().subscribe( item => {
       // console.log(item);
       this.pgData = item;
-      console.log(this.pgData);
     });
     
   }
@@ -76,7 +73,7 @@ export class ProductComponent implements OnInit {
   addProd(){
     this.addNewProd = true;
   }
-  // Hides Add Product option
+  // Hides Add Product and Update Product option
   cancel(){
     this.addNewProd = false;
     this.updateProd = false;
@@ -92,6 +89,7 @@ export class ProductComponent implements OnInit {
   updateProduct(prod){
     this.updateProd = true;
     this.updateProdId = prod._id;
+    this.updateProdData = prod;
   }
   //Hides delete warning well for products
   cancelDeleteProduct(){
@@ -111,7 +109,7 @@ export class ProductComponent implements OnInit {
       // console.log(test);
       this.ps.uploadImage(fileup).subscribe( data => {
         this.fileURL = data;
-        console.log(this.fileURL);
+        // console.log(this.fileURL);
       });
     }
   }
@@ -124,14 +122,15 @@ export class ProductComponent implements OnInit {
   saveNewProduct(para){
     // console.log(para); //data from ngForm
     this.ps.addNewProduct(para).subscribe( item => {
-      console.log(item);
+      // console.log(item);
        //Displays all products on the products page
-    // this.ps.productDetails().subscribe(item => {
-    //   this.PP = item;
-    // });
+    this.ps.productDetails().subscribe(item => {
+      this.pgData = item;
+      this.ngOnInit();
+    });
     });
     alert("New product added successfully");
-    this.ngOnInit();
+    
   }
 
 
