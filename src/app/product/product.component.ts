@@ -41,7 +41,7 @@ export class ProductComponent implements OnInit {
           /** spinner ends after 5 seconds */
           this.spinner.hide();
           this.isLoading = false;
-        }, 2000);
+        }, 3000);
     
 
     this.formGrp= this.fb.group({

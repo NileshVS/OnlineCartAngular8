@@ -1,4 +1,7 @@
-<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;'>
+<div class="container" style='background-color: white;'>
+    <ngx-spinner></ngx-spinner>
+</div>
+<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;' *ngIf="isLoading == false">
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <button type="button" class="btn btn-danger" (click)="addNewCatergory()">Add New Category</button><br>
@@ -19,28 +22,28 @@
             <div class="well" *ngIf="newSubcategory == true">
                 <form [formGroup] = "subcategoryFrmGrp" (ngSubmit)="addSubcategory(subcategoryFrmGrp.value)">
                     <div class="form-group">
-                        <label for="">Add new subcatergory:</label>
-                            <input type="text" class="form-control" formControlName="name" placeholder="Input new subcategory name">
-                        <label for="">Select catergory:</label>
-                            <select name="" >
-                                <option value=""></option>
+                        <label>Add new subcatergory:</label>
+                            <input type="text" class="form-control" formControlName="name" placeholder="Input new subcategory name" required>
+                        <label >Select catergory:</label>
+                            <select formControlName="catName" required >
+                                <option value="{{sub.catName}}" *ngFor="let sub of categoryName">{{sub.catName}}</option>
                             </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button [disabled]="!subcategoryFrmGrp.valid" type="submit" class="btn btn-primary">Submit</button>
                     <button type="button" class="btn btn-danger" (click)= "cancelSubcategory()">Cancel</button>
                 </form>
             </div>   
         </div>            
     </div>
 </div><br>
-<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;'>
+<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;' *ngIf="isLoading == false">
         <div class="row">
                 <!-- category search -->
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <input type="search" [(ngModel)]="searchCat.catName" class="form-control" placeholder="Enter Category Name To Search">                        
                         <div class="panel panel-primary" *ngIf="searchCat.catName">
-                            <div *ngFor="let cat of categories | filterBy: searchCat">
-                                    <p>{{cat.catName}}</p> 
+                            <div *ngFor="let cat of categories.categoryData | filterBy: searchCat">
+                                    <p><strong>Name:</strong> {{cat.catName}}</p> 
                                     <button type="button" class="btn btn-danger" (click)="confirmDeleteCategory(cat)">Delete Category</button>
                                     <div class="well" *ngIf="delCategory == true && delCategoryId == cat._id">
                                         <p>This cannot be undone. Proceed?:</p>
@@ -48,16 +51,16 @@
                                         <button type="button" class="btn btn-success" (click)="canDeleteCategory()">Cancel</button>
                                     </div>
                             </div>
-                            <div *ngIf="(categories | filterBy: searchCat).length === 0">
+                            <div *ngIf="(categories.categoryData | filterBy: searchCat).length === 0">
                                 <div class="alert alert-danger"><strong>No match found, Press Esc...</strong> </div>
                             </div>                                                   
                         </div>
                         <!-- Stored categories -->
-                    <p><strong>Total Stored Categories:</strong></p>
+                    <p><strong>Total Stored Categories:</strong> {{categories.totalCategories}}</p>
                     <p><strong>Currently Stored Categories:</strong></p>
                     <div *ngIf="!searchCat.catName">
-                        <div class="panel panel-info" *ngFor="let cat of categories">
-                            <p>{{cat.catName}}</p> 
+                        <div class="panel panel-info" *ngFor="let cat of categories.categoryData | paginate: { id:'category', itemsPerPage: categories.perPage, currentPage: catP, totalItems: categories.totalCategories}">
+                            <p><strong>Name:</strong> {{cat.catName}}</p> 
                             <button type="button" class="btn btn-danger" (click)="confirmDeleteCategory(cat)">Delete Category</button>
                             <div class="well" *ngIf="delCategory == true && delCategoryId == cat._id">
                                 <p>This cannot be undone. Proceed?:</p>
@@ -65,10 +68,42 @@
                                 <button type="button" class="btn btn-success" (click)="canDeleteCategory()">Cancel</button>
                             </div>
                         </div>
+                        <pagination-controls id="category" *ngIf="!searchCat.catName" (pageChange)="catP = $event"></pagination-controls>
                     </div>
                     </div>
+                    
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <p>Stored Subcategories:</p>
+                    <!-- subcategory search -->
+                    <input type="search" [(ngModel)]="searchSubcat.name" class="form-control" placeholder="Enter Subcategory Name To Search">
+                    <div class="panel panel-primary" *ngIf="searchSubcat.name">
+                            <div *ngFor="let sub of subcats.subcategoryData | filterBy: searchSubcat">
+                                    <p><strong>Name:</strong> {{sub.name}} | <strong>Category Name:</strong> {{sub.catName}}</p>
+                                    <button type="button" class="btn btn-danger" (click)="confirmDeleteSubcategory(sub)">Delete Subcategory</button>
+                                    <div class="well" *ngIf="delSubcategory == true && delSubcategoryId == sub._id">
+                                        <p>This cannot be undone. Proceed?:</p>
+                                        <button type="button" class="btn btn-danger" (click)="deleteSubcategory()">Delete Subcategory</button>
+                                        <button type="button" class="btn btn-success" (click)="canDeleteSubcategory()">Cancel</button>
+                                    </div>        
+                            </div>
+                            <div *ngIf="(subcats.subcategoryData | filterBy: searchSubcat).length === 0">
+                                <div class="alert alert-danger"><strong>No match found, Press Esc...</strong> </div>
+                            </div>  
+                    </div>
+                    <!-- Stored subcategories -->
+                    <p><strong>Total Stored Subcategories:</strong> {{subcats.totalSubcategories}}</p>
+                    <p><strong>Currently Stored Subcategories:</strong></p>
+                    <div *ngIf="!searchSubcat.name">
+                        <div class="panel panel-info" *ngFor="let sub of subcats.subcategoryData | paginate: { id: 'subcategory', itemsPerPage: subcats.perPage, currentPage: subcatP, totalItems: subcats.totalSubcategories}">
+                            <p><strong>Name:</strong> {{sub.name}} | <strong>Category Name:</strong> {{sub.catName}}</p>
+                            <button type="button" class="btn btn-danger" (click)="confirmDeleteSubcategory(sub)">Delete Subcategory</button>
+                            <div class="well" *ngIf="delSubcategory == true && delSubcategoryId == sub._id">
+                                <p>This cannot be undone. Proceed?:</p>
+                                <button type="button" class="btn btn-danger" (click)="deleteSubcategory()">Delete Subcategory</button>
+                                <button type="button" class="btn btn-success" (click)="canDeleteSubcategory()">Cancel</button>
+                            </div>
+                        </div>
+                        <pagination-controls id="subcategory" *ngIf="!searchSubcat.name" (pageChange)="subcatP = $event"></pagination-controls>
+                    </div>
                 </div>
             </div>        
 </div>

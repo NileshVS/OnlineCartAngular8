@@ -18,6 +18,10 @@ export class productServices{
     private fileDeleteTempURL = "http://localhost:4000/api/image-delete";
     private deleteCategoryURL = "http://localhost:4000/api/delete-category";
     private addCategoryURL="http://localhost:4000/api/add-new-category";
+    private categoryPaginationURL = "http://localhost:4000/api/category-pagination";
+    private subcategoryPaginationURL = "http://localhost:4000/api/subcategory-pagination";
+    private addSubcategoryURL="http://localhost:4000/api/add-new-subcategory";
+    private deleteSubcategoryURL = "http://localhost:4000/api/delete-subcategory";
 
     constructor(private http: HttpClient){
         this.httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
@@ -63,5 +67,17 @@ export class productServices{
     }
     addNewCategory(data){
         return this.http.post(this.addCategoryURL, JSON.stringify(data), {headers: this.httpHeader});
+    }
+    categoryPagination(){
+        return this.http.get(this.categoryPaginationURL, {headers: this.httpHeader});
+    }
+    subcategoryPagination(){
+        return this.http.get(this.subcategoryPaginationURL, {headers: this.httpHeader});
+    }
+    addNewSubcategory(data){
+        return this.http.post(this.addSubcategoryURL, JSON.stringify(data), {headers: this.httpHeader});
+    }
+    deleteSubcategory(id){
+        return this.http.delete(this.deleteSubcategoryURL + "/" + id, {headers: this.httpHeader});
     }
 }
