@@ -10,6 +10,7 @@ import { ProductComponent } from './product/product.component';
 import {HttpClientModule} from  '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { SubcategoryComponent } from './subcategory/subcategory.component';
 
@@ -29,7 +30,8 @@ import { SubcategoryComponent } from './subcategory/subcategory.component';
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
     NgxPaginationModule,
-    FilterPipeModule
+    FilterPipeModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

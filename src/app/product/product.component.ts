@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import {Validators,FormBuilder,FormGroup} from '@angular/forms';
 import {productServices} from '../shared/services/app.services';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-product',
@@ -28,9 +29,21 @@ export class ProductComponent implements OnInit {
   
   searchFilter: any = {name: ''}; //searchFilter model for custom pipe
 
-  constructor(private ps: productServices,  private fb: FormBuilder) {}
+  isLoading:Boolean;
+
+  constructor(private ps: productServices,  private fb: FormBuilder, private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
+        /** spinner starts on init */
+        this.spinner.show();
+        this.isLoading = true;
+        setTimeout(() => {
+          /** spinner ends after 5 seconds */
+          this.spinner.hide();
+          this.isLoading = false;
+        }, 2000);
+    
+
     this.formGrp= this.fb.group({
       'name': ["", Validators.required],
       'productImage': ["", Validators.required],
@@ -61,6 +74,7 @@ export class ProductComponent implements OnInit {
       // console.log(item);
       this.pgData = item;
     });
+    
     
   }
   // -----------------Button toggles start from here--------------------------
