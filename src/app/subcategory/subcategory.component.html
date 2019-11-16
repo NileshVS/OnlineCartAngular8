@@ -26,8 +26,9 @@
                             <input type="text" class="form-control" formControlName="name" placeholder="Input new subcategory name" required>
                         <label >Select catergory:</label>
                             <select formControlName="catName" required >
-                                <option value="{{sub.catName}}" *ngFor="let sub of categoryName">{{sub.catName}}</option>
+                                <option value="{{sub.catName}}" *ngFor="let sub of categoryName">{{sub.catName}}</option>                                 
                             </select>
+                            <button type="button" class="btn btn-warning" (click)="refresh()">Refresh Category List</button>
                     </div>
                     <button [disabled]="!subcategoryFrmGrp.valid" type="submit" class="btn btn-primary">Submit</button>
                     <button type="button" class="btn btn-danger" (click)= "cancelSubcategory()">Cancel</button>

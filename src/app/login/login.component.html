@@ -1,1 +1,100 @@
-<p>login works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            
+            <div class="panel panel-default">
+                <div class="panel-body">
+                   Login to get following benefits:
+                   <ul>
+                       <li>
+                            Store items to your cart
+                       </li>
+                       <li>
+                            Checkout
+                       </li>
+                       <li>
+                            Manage (admins only)
+                       </li>
+                       <li>
+                            Add products (admins only)
+                       </li>
+                   </ul>
+                   
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">Login to your account
+                    <div class="panel-body">                        
+                        <form [formGroup]="formGrpLogin" (ngSubmit)="login(formGrpLogin.value)" class="form-inline" role="form">                        
+                            <div class="form-group" formGroupName="userLogin">
+                                <label class="sr-only">Username:</label>
+                                <input type="email" formControlName="userEmail" class="form-control" placeholder="Enter email ID" required>
+                            </div>
+                            <div class="form-group" formGroupName="userLogin">
+                                    <label class="sr-only">Password:</label>
+                                    <input type="password" formControlName="userPassword"  class="form-control" placeholder="Enter password" required>
+                            </div>                                                                            
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form><br>
+                        <button type="button" class="btn btn-danger" (click) = "forgot()">Forgot password</button>
+                        <button type="button" class="btn btn-warning" (click) = "register()">User Registeration</button>
+                        <div class="well"  *ngIf= "isForgotten == true">                            
+                            <form class="form-inline" role="form">                            
+                                <div class="form-group">
+                                    <label class="sr-only" for="">Enter your email:</label>
+                                    <input type="email" class="form-control" placeholder="Enter email ID to continue">
+                                </div>                                                                                        
+                                <button [disabled]="!frmGrpLogin.valid" type="submit" class="btn btn-primary">Submit</button>
+                            </form>                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="row" *ngIf="isRegister == true">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            
+            <form [formGroup]="formGrpRegister" (ngSubmit)="proceedRegister(formGrpRegister.value)" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <legend>New User Registration</legend>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" formControlName="firstname" class="form-control input-sm" required placeholder="Enter First Name">    
+                    </div>
+                    <div class="form-group">
+                        <input type="text" formControlName="lastname" class="form-control input-sm" placeholder="Enter Last Name" required>
+                    </div>
+                    <div class="form-group" formGroupName="userLogin">
+                        <input type="email" formControlName="userEmail" class="form-control input-sm" placeholder="Enter Email ID" required>
+                    </div>
+                    <div class="form-group" formGroupName="userLogin">
+                        <input type="password" formControlName="userPassword" class="form-control input-sm" placeholder="Enter Password" required>
+                    </div>
+                    <div class="checkbox">
+                            <label>
+                                <input type="checkbox" formControlName="newsLetterCheck" required>
+                                    Receive newsletter
+                            </label>
+                        </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" formControlName="termsAcceptCheck" required>
+                                I have read and accept all the Terms & Conditions***
+                        </label>
+                    </div><br>                              
+                    <div class="form-group">
+                            <button type="submit" [disabled]="!formGrpRegister.valid" class="btn btn-primary">Register</button>
+                    </div>                
+            </form>
+        </div>
+            
+    </div>
+</div>
+

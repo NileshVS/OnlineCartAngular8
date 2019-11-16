@@ -71,8 +71,7 @@ export class SubcategoryComponent implements OnInit {
 
     //subcategory pagination
     this.ps.subcategoryPagination().subscribe( item =>{
-      this.subcats = item;
-      console.log(this.subcats);
+      this.subcats = item;  
     });
   }
 
@@ -111,6 +110,12 @@ export class SubcategoryComponent implements OnInit {
   canDeleteSubcategory(){
     this.delSubcategory = false;
     this.delSubcategoryId = undefined;
+  }
+
+  refresh(){
+    this.ps.categoryDetails().subscribe( item =>{
+      this.categoryName = item;
+    });
   }
   //Button toggles end here
 

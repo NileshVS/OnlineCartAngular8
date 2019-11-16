@@ -22,6 +22,8 @@ export class productServices{
     private subcategoryPaginationURL = "http://localhost:4000/api/subcategory-pagination";
     private addSubcategoryURL="http://localhost:4000/api/add-new-subcategory";
     private deleteSubcategoryURL = "http://localhost:4000/api/delete-subcategory";
+    private userLoginURL= "http://localhost:4000/api/user-login";
+    private newUserRegisterURL="http://localhost:4000/api/new-user-register";
 
     constructor(private http: HttpClient){
         this.httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
@@ -79,5 +81,11 @@ export class productServices{
     }
     deleteSubcategory(id){
         return this.http.delete(this.deleteSubcategoryURL + "/" + id, {headers: this.httpHeader});
+    }
+    userLogin(data){
+        return this.http.post(this.userLoginURL, JSON.stringify(data), {headers : this.httpHeader});
+    }
+    newUserRegister(data){
+        return this.http.post(this.newUserRegisterURL, JSON.stringify(data), {headers : this.httpHeader});
     }
 }
