@@ -37,18 +37,22 @@
                             <div class="form-group" formGroupName="userLogin">
                                     <label class="sr-only">Password:</label>
                                     <input type="password" formControlName="userPassword"  class="form-control" placeholder="Enter password" required>
-                            </div>                                                                            
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            </div>  
+                            <div class="form-group">
+                                    <button type="submit" [disabled]="!formGrpLogin.valid" class="btn btn-primary">Login</button>
+                            </div>
+
+                            
                         </form><br>
                         <button type="button" class="btn btn-danger" (click) = "forgot()">Forgot password</button>
                         <button type="button" class="btn btn-warning" (click) = "register()">User Registeration</button>
                         <div class="well"  *ngIf= "isForgotten == true">                            
-                            <form class="form-inline" role="form">                            
-                                <div class="form-group">
+                            <form [formGroup]="formGrpForgot" (ngSubmit)="forgotPass(formGrpForgot.value)" class="form-inline" role="form">                            
+                                <div class="form-group" formGroupName="userLogin">
                                     <label class="sr-only" for="">Enter your email:</label>
-                                    <input type="email" class="form-control" placeholder="Enter email ID to continue">
+                                    <input type="email" class="form-control" formControlName="userEmail" placeholder="Enter email ID to continue">
                                 </div>                                                                                        
-                                <button [disabled]="!frmGrpLogin.valid" type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" [disabled]="!formGrpForgot.valid" class="btn btn-primary">Submit</button>
                             </form>                            
                         </div>
                     </div>

@@ -1,7 +1,63 @@
-<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;'>
+<div class="container" style='background-color: white;' >
+        <ngx-spinner></ngx-spinner>
+</div>
+<div class="container" style='background-color: white;' >
+        
+</div>
+
+<div class="container" style='background-color: #f2f2f2; border-radius: 15px; border: 200px thick black;' *ngIf="isLoading === false">
         <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <p><strong>Today's Offers</strong></p>  
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
+           
+                                        <input type="search" [(ngModel)]="searchFilter.name" class="form-control" placeholder="Enter product name to search"><br>
+                                        <div *ngIf="searchFilter.name">
+                                                <div class="panel panel-info" *ngFor= "let prod of pgData.productData | filterBy : searchFilter">
+                                                        <div class="panel-heading">
+                                                            <h3 class="panel-title">{{prod.name | uppercase}}</h3> 
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <img src="{{prod.productImage}}" class="img-responsive"><br>
+                                                            <ul>
+                                                                <li><span style="font-weight: bold;">Description</span>: {{prod.description}}</li>
+                                                                <li><span style="font-weight: bold;">Price</span>: {{prod.price  | currency:'INR'}}</li>
+                                                                <li *ngIf = "prod.isTodayOffer == true"><span style="font-weight: bold;">Offer price</span>: {{prod.offerPrice  | currency:'INR'}}</li>
+                                                                <li><span style="font-weight: bold;">Category</span>: {{prod.category}}</li>
+                                                                <li><span style="font-weight: bold;">Sub-category</span>: {{prod.subCategory}}</li>
+                                                                <li><span style="font-weight: bold;">Availablility</span>: {{prod.isAvailable}}</li>
+                                                                <li><span style="font-weight: bold;">Offer available</span>: {{prod.isTodayOffer}}</li>
+                                                                <li><span style="font-weight: bold;">Entry date</span>: {{prod.recordDate}}</li>                                      
+                                                                <li *ngIf = "prod.updatedDate"><span style="font-weight: bold;">Last updated</span>: {{prod.updatedDate}}</li>
+                                                            </ul>            
+                                                        </div>                            
+                                                </div>
+                                                <div class="panel panel-danger" *ngIf="(pgData.productData | filterBy: searchFilter).length === 0">
+                                                    <strong>No matching results found!</strong> <br>Press Esc to continue...
+                                                </div>                    
+                                        </div>                                    
+                                    </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!searchFilter.name"> 
+                                <div class="panel panel-info" *ngFor= "let prod of pgData.productData |  paginate: { itemsPerPage: pgData.perPage, currentPage: p, totalItems: pgData.totalProducts }">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">{{prod.name | uppercase}}</h3> 
+                                                </div>
+                                                <div class="panel-body">
+                                                      <img src="{{prod.productImage}}" class="img-responsive"><br>
+                                                    <ul>
+                                                        <li><span style="font-weight: bold;">Description</span>: {{prod.description}}</li>
+                                                        <li><span style="font-weight: bold;">Price</span>: {{prod.price  | currency:'INR'}}</li>
+                                                        <li *ngIf = "prod.isTodayOffer == true"><span style="font-weight: bold;">Offer price</span>: {{prod.offerPrice  | currency:'INR'}}</li>
+                                                        <li><span style="font-weight: bold;">Category</span>: {{prod.category}}</li>
+                                                        <li><span style="font-weight: bold;">Sub-category</span>: {{prod.subCategory}}</li>
+                                                        <li><span style="font-weight: bold;">Availablility</span>: {{prod.isAvailable}}</li>
+                                                        <li><span style="font-weight: bold;">Offer available</span>: {{prod.isTodayOffer}}</li>
+                                                        <li><span style="font-weight: bold;">Entry date</span>: {{prod.recordDate}}</li>                                      
+                                                        <li *ngIf = "prod.updatedDate"><span style="font-weight: bold;">Last updated</span>: {{prod.updatedDate}}</li>
+                                                    </ul>
+                                                    
+                                                </div>
+                                        </div>
+                                        <pagination-controls *ngIf="!searchFilter.name" (pageChange)="p = $event"></pagination-controls>
                 </div>                        
         </div>       
 </div>

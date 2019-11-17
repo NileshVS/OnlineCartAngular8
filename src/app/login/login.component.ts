@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {productServices} from '../shared/services/app.services';
-import {FormBuilder, Validator, FormGroup} from '@angular/forms';
+import {FormBuilder, Validator, FormGroup, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,16 @@ export class LoginComponent implements OnInit {
 
   formGrpLogin:FormGroup;
   formGrpRegister: FormGroup;
-  constructor(private ps: productServices, private fb: FormBuilder) { }
+  formGrpForgot: FormGroup;
+
+  messages;
+  constructor(private ps: productServices, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.formGrpLogin = this.fb.group({
       'userLogin': this.fb.group({
-        'userEmail':[""],
-        'userPassword': [""]
+        'userEmail':["", Validators.required],
+        'userPassword': ["", Validators.required]
       })
     });
 
@@ -33,6 +37,12 @@ export class LoginComponent implements OnInit {
         'userPassword': [""]
       }),
       'termsAcceptCheck': [""]
+    });
+
+    this.formGrpForgot = this.fb.group({
+      'userLogin': this.fb.group({
+        'userEmail': [""]
+      })
     });
 
   }
@@ -62,14 +72,40 @@ export class LoginComponent implements OnInit {
   login(val){
     console.log(val);
     this.ps.userLogin(val).subscribe(item => {
-      console.log(item);
+      this.messages = item;
+      if(this.messages.msg){
+        alert("Invalid credentials, please try again")
+      }
+      if(this.messages.token){
+        alert("Login Successful");
+        this.router.navigateByUrl('/home');
+      }
     });
   }
 
   proceedRegister(val){
-    console.log(val);
+    // console.log(val);
     this.ps.newUserRegister(val).subscribe(item =>{
-      console.log(item);
+      this.messages =item;
+      if(this.messages.msg){
+        alert(`${this.messages.msg}`);
+      }
+      if(this.messages.exist){
+        alert("User already exist!");
+      }
     });
+  }
+
+  forgotPass(val){
+    // console.log(val);
+    this.ps.forgotPassword(val).subscribe( item => {
+      this.messages = item;
+      if(this.messages.msg){
+        alert('Email ID not found');
+      }
+      if(this.messages.mailCheck){
+        alert("Check your mail for further instructions");
+      }
+    })
   }
 }

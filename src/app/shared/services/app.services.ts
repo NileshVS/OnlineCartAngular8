@@ -1,6 +1,8 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { OnInit, Injectable } from '@angular/core';
-import {ProductComponent} from '../../product/product.component';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators'
+import {Users} from '../model/loginUsers';
 
 @Injectable({'providedIn': 'root'})
 
@@ -24,6 +26,7 @@ export class productServices{
     private deleteSubcategoryURL = "http://localhost:4000/api/delete-subcategory";
     private userLoginURL= "http://localhost:4000/api/user-login";
     private newUserRegisterURL="http://localhost:4000/api/new-user-register";
+    private forgotPasswordURL ="http://localhost:4000/api/reset-request";
 
     constructor(private http: HttpClient){
         this.httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
@@ -82,10 +85,19 @@ export class productServices{
     deleteSubcategory(id){
         return this.http.delete(this.deleteSubcategoryURL + "/" + id, {headers: this.httpHeader});
     }
-    userLogin(data){
-        return this.http.post(this.userLoginURL, JSON.stringify(data), {headers : this.httpHeader});
+    userLogin(data):Observable<Users>{
+        return this.http.post<Users>(this.userLoginURL, JSON.stringify(data), {headers : this.httpHeader})
+        .pipe(map(item => {
+            if(item && item.token){
+                localStorage.setItem('currentUser', JSON.stringify(item.token) );
+            }
+            return item;
+        }));
     }
     newUserRegister(data){
         return this.http.post(this.newUserRegisterURL, JSON.stringify(data), {headers : this.httpHeader});
+    }
+    forgotPassword(data){
+        return this.http.post(this.forgotPasswordURL, JSON.stringify(data), {headers : this.httpHeader});
     }
 }

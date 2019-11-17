@@ -1,4 +1,7 @@
 export interface Users{
-    username: string;
-    password: string;
+    token?:string;
+    userLogin:{
+        userEmail: string;
+        userPassword: string;
+    }
 }
