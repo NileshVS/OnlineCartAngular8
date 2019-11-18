@@ -8,6 +8,8 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  user;
+  isUserAdmin: Boolean = false;
   pgData;
   isLoading:Boolean;
   p:number=1;
@@ -26,7 +28,18 @@ export class HomeComponent implements OnInit {
 
     this.ps.prodPagination().subscribe( item => {
       this.pgData = item;
-      console.log(this.pgData);
+      // console.log(this.pgData);
+    });
+
+    this.ps.loggedInUser().subscribe( item => {
+      // console.log(item);
+      this.user = item;
+      if(this.user.isAdmin){
+        this.isUserAdmin = true;
+      }
+      else{
+        this.isUserAdmin = false;
+      }
     });
   }
 }

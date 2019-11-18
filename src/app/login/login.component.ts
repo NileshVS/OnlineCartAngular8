@@ -70,15 +70,15 @@ export class LoginComponent implements OnInit {
 
   //API
   login(val){
-    console.log(val);
+    // console.log(val);
     this.ps.userLogin(val).subscribe(item => {
       this.messages = item;
       if(this.messages.msg){
         alert("Invalid credentials, please try again")
       }
       if(this.messages.token){
-        alert("Login Successful");
         this.router.navigateByUrl('/home');
+        alert("Login Successful");
       }
     });
   }

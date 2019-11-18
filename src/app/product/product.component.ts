@@ -46,7 +46,7 @@ export class ProductComponent implements OnInit {
 
     this.formGrp= this.fb.group({
       'name': ["", Validators.required],
-      'productImage': ["", Validators.required],
+      'productImage': [""],
       'description': ["", Validators.required],
       'price': ["", Validators.required],
       'offerPrice': ["", Validators.required],
@@ -114,9 +114,9 @@ export class ProductComponent implements OnInit {
     if (event.target.files && event.target.files.length > 0){
       let fileup= new FormData();
       fileup.append('imgUrl', this.seletedFile, this.seletedFile.name);
-      // let test = fileup.get('imgUrl');
+      let test = fileup.get('imgUrl');
       // console.log(test);
-      this.ps.uploadImage(fileup).subscribe( data => {
+       this.ps.uploadImage(fileup).subscribe( data => {
         this.fileURL = data;
         // console.log(this.fileURL);
       });
@@ -129,8 +129,11 @@ export class ProductComponent implements OnInit {
   // -----------------API triggers start from here--------------------------
   //Pushes New Product to API
   saveNewProduct(para){
-    // console.log(para); //data from ngForm
-    this.ps.addNewProduct(para).subscribe( item => {
+    this.addNewProd=false;
+  //  console.log(para); //data from ngForm
+   let data = para;
+    data.productImage = this.fileURL;
+    this.ps.addNewProduct(data).subscribe( item => {
       // console.log(item);
        //Displays all products on the products page
     this.ps.productDetails().subscribe(item => {

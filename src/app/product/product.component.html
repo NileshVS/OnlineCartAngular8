@@ -100,10 +100,10 @@
                             <input class="form-control input-sm" type="file" (change)="fileUpload($event)" required>
                             <p>Image size must be less than 5 MB*</p>
                         </div>
-                        <div class="form-group">
-                                <input class="form-control input-sm" type="text" formControlName="productImage" value="{{this.fileURL}}" placeholder="Image URL">
-                                <div class="alert alert-danger" *ngIf="formGrp.get('productImage').hasError('required') && formGrp.get('productImage').touched"><strong>Enter Image URL*</strong> </div>
+                        <div>
+                            <img *ngIf ="fileURL" src="{{fileURL}}" style=" border: 2px black solid; height: 200px; width: 200px;">    
                             </div>
+                            
                         <div class="form-group">
                             <input class="form-control input-sm" type="text" formControlName="description" placeholder="Enter product description" required>
                             <div class="alert alert-danger" *ngIf="formGrp.get('description').hasError('required') && formGrp.get('description').touched"><strong>Enter Description*</strong> </div>

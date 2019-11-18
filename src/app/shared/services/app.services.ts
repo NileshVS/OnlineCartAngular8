@@ -26,11 +26,16 @@ export class productServices{
     private deleteSubcategoryURL = "http://localhost:4000/api/delete-subcategory";
     private userLoginURL= "http://localhost:4000/api/user-login";
     private newUserRegisterURL="http://localhost:4000/api/new-user-register";
-    private forgotPasswordURL ="http://localhost:4000/api/reset-request";
+    private forgotPasswordRequestURL ="http://localhost:4000/api/reset-request";
+    private loggedInUserURL = 'http://localhost:4000/api/me';
+    private forgotPasswordURL = "http://localhost:4000/api/reset-password";
 
     constructor(private http: HttpClient){
+        
+        let token = localStorage.getItem("currentUser");
         this.httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
         this.httpHeader.append('Content-Type', 'application/file');
+        this.httpHeader.set("x-auth-token", token);
     }
     prodPagination(){
         return this.http.get(this.pagination, {headers: this.httpHeader});
@@ -98,6 +103,25 @@ export class productServices{
         return this.http.post(this.newUserRegisterURL, JSON.stringify(data), {headers : this.httpHeader});
     }
     forgotPassword(data){
-        return this.http.post(this.forgotPasswordURL, JSON.stringify(data), {headers : this.httpHeader});
+        return this.http.post(this.forgotPasswordRequestURL, JSON.stringify(data), {headers : this.httpHeader});
+    }
+
+    loggedInUser():Observable<Users> {
+        let token = JSON.parse(localStorage.getItem("currentUser"));
+        return this.http.get<Users>(this.loggedInUserURL, {headers:{"x-auth-token": token}})
+        .pipe(map((data :any) =>{
+            if(data){
+                localStorage.setItem('currentUsername', data.firstname);
+            }
+            if(data && data.isAdmin){
+                localStorage.setItem('isAdmin', data.isAdmin);
+            }
+            // location.reload();
+            return data;
+        }));
+    }
+
+    forgotConfirm(data,id){
+        return this.http.post(this.forgotPasswordURL+ "/"+ id, JSON.stringify(data), {headers : this.httpHeader});
     }
 }

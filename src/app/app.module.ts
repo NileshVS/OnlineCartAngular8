@@ -13,6 +13,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { SubcategoryComponent } from './subcategory/subcategory.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SubcategoryComponent } from './subcategory/subcategory.component';
     HomeComponent,
     ProductComponent,
     LoginComponent,
-    SubcategoryComponent
+    SubcategoryComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
