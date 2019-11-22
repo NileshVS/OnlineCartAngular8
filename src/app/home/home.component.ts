@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import {productServices} from '../shared/services/app.services';
 import { NgxSpinnerService } from "ngx-spinner";
+import {FormGroup,FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,10 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  formGrp: FormGroup;
+
+  prodId;
+  addToCart:Boolean= false;
   user;
   isUserAdmin: Boolean = false;
   pgData;
@@ -15,7 +20,7 @@ export class HomeComponent implements OnInit {
   p:number=1;
   searchFilter: any = {name: ''}; //searchFilter model for custom pipe
   
-  constructor(private ps: productServices, private spinner: NgxSpinnerService) { }
+  constructor(private ps: productServices, private spinner: NgxSpinnerService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -25,6 +30,13 @@ export class HomeComponent implements OnInit {
           this.spinner.hide();
           this.isLoading = false;
         }, 2000);
+    
+    this.formGrp = this.fb.group({
+      'cartDetails': this.fb.group({
+        'prodId': [""],
+        'quantity': [""]
+      })
+    });
 
     this.ps.prodPagination().subscribe( item => {
       this.pgData = item;
@@ -40,6 +52,28 @@ export class HomeComponent implements OnInit {
       else{
         this.isUserAdmin = false;
       }
+    });
+  }
+
+  a2c(pId){
+    this.prodId = pId;
+    if(this.addToCart == false){
+      this.addToCart = true;
+    }
+    else{
+      this.addToCart = false;
+    }
+    // console.log(pId);
+  }
+
+  addToMyCart(data){
+    alert("Item added successfully");
+    this.addToCart = false;
+    let currentData = data;
+    currentData.cartDetails.prodId = this.prodId;
+    console.log(currentData);
+    this.ps.addToCart(currentData).subscribe( item =>{
+        console.log(item);
     });
   }
 }

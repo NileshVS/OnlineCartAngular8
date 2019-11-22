@@ -29,6 +29,7 @@ export class productServices{
     private forgotPasswordRequestURL ="http://localhost:4000/api/reset-request";
     private loggedInUserURL = 'http://localhost:4000/api/me';
     private forgotPasswordURL = "http://localhost:4000/api/reset-password";
+    private addToCartURL="http://localhost:4000/api/add-to-cart";
 
     constructor(private http: HttpClient){
         
@@ -123,5 +124,11 @@ export class productServices{
 
     forgotConfirm(data,id){
         return this.http.post(this.forgotPasswordURL+ "/"+ id, JSON.stringify(data), {headers : this.httpHeader});
+    }
+
+    addToCart(data){
+        let token = JSON.parse(localStorage.getItem("currentUser"));
+        // console.log(token);
+        return this.http.post(this.addToCartURL, JSON.stringify(data), {headers: this.httpHeader.set('x-auth-token', token)});
     }
 }

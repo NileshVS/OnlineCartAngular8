@@ -51,6 +51,16 @@
                                                         <li *ngIf = "prod.updatedDate"><span style="font-weight: bold;">Last updated</span>: {{prod.updatedDate}}</li>
                                                     </ul>
                                                     
+                                                    <button type="button" class="btn btn-danger" (click)="a2c(prod._id)">Add to my cart</button>
+                                                    <div class="well"  *ngIf="addToCart == true && prodId == prod._id">
+                                                        <form [formGroup]="formGrp" (ngSubmit)="addToMyCart(formGrp.value)" role="form">
+                                                            <div class="form-group" formGroupName="cartDetails">
+                                                                <label>Quantity:</label>
+                                                                <input type="number" formControlName="quantity" placeholder="Quantity" required>
+                                                            </div>                                                    
+                                                            <button [disabled]="!formGrp.valid" type="submit" class="btn btn-primary">Add</button>
+                                                        </form> 
+                                                    </div>                                                                                           
                                                 </div>
                                         </div>
                                         <pagination-controls *ngIf="!searchFilter.name" (pageChange)="p = $event"></pagination-controls>
