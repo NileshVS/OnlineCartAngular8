@@ -67,7 +67,17 @@
                 </div>                        
         </div>       
 </div>
-<jw-modal id="cart">
-    <p>It works...</p>
+<jw-modal id="cart" *ngIf="isLoading == false">
+    <h1>My Cart</h1>
+    <div class="panel panel-primary" *ngFor="let cart of userCart.data">
+          <div class="panel-heading">
+                <h3 class="panel-title">{{cart.name}}</h3>
+          </div>
+          <div class="panel-body">
+                <ul>
+                    <li>Quantity: {{cart.quantity}}</li>
+                </ul>
+          </div>
+    </div>
     <button (click)="closeModal('cart');">Close</button>    
 </jw-modal>

@@ -30,6 +30,7 @@ export class productServices{
     private loggedInUserURL = 'http://localhost:4000/api/me';
     private forgotPasswordURL = "http://localhost:4000/api/reset-password";
     private addToCartURL="http://localhost:4000/api/add-to-cart";
+    private userCartURL = "http://localhost:4000/api/usercart";
 
     constructor(private http: HttpClient){
         
@@ -130,5 +131,10 @@ export class productServices{
         let token = JSON.parse(localStorage.getItem("currentUser"));
         // console.log(token);
         return this.http.post(this.addToCartURL, JSON.stringify(data), {headers: this.httpHeader.set('x-auth-token', token)});
+    }
+
+    userCart(){
+        let token = JSON.parse(localStorage.getItem("currentUser"));
+        return this.http.get(this.userCartURL, {headers: this.httpHeader.set('x-auth-token', token)});
     }
 }

@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   user;
   isUserAdmin: Boolean = false;
   pgData;
+  userCart;
   isLoading:Boolean;
   p:number=1;
   searchFilter: any = {name: ''}; //searchFilter model for custom pipe
@@ -53,6 +54,11 @@ export class HomeComponent implements OnInit {
       else{
         this.isUserAdmin = false;
       }
+    });
+
+    this.ps.userCart().subscribe( item => {
+        this.userCart = item;
+      console.log(this.userCart);
     });
   }
 
