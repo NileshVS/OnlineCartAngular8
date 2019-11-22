@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import {productServices} from '../shared/services/app.services';
 import { NgxSpinnerService } from "ngx-spinner";
 import {FormGroup,FormBuilder} from "@angular/forms";
+import { ModalService } from '../_modal';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   p:number=1;
   searchFilter: any = {name: ''}; //searchFilter model for custom pipe
   
-  constructor(private ps: productServices, private spinner: NgxSpinnerService, private fb: FormBuilder) { }
+  constructor(private ps: productServices, private spinner: NgxSpinnerService, private fb: FormBuilder, private modalService: ModalService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -75,5 +76,13 @@ export class HomeComponent implements OnInit {
     this.ps.addToCart(currentData).subscribe( item =>{
         console.log(item);
     });
+  }
+
+  openModal(id: string) {
+    this.modalService.open(id);
+  }
+
+  closeModal(id: string) {
+    this.modalService.close(id);
   }
 }

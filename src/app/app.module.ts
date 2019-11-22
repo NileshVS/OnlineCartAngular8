@@ -14,6 +14,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { SubcategoryComponent } from './subcategory/subcategory.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import {ModalModule} from './_modal';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     HttpClientModule,
     NgxPaginationModule,
     FilterPipeModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

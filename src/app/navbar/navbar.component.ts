@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalService } from '../_modal';
 
 @Component({
   selector: 'app-navbar',
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  constructor(private router: Router) { }
+  constructor(private router: Router, private modalService: ModalService) { }
   user;
   isAdmin;
   ngOnInit() {
@@ -31,5 +32,11 @@ export class NavbarComponent implements OnInit {
     this.isAdmin = false;
     this.user = undefined;
   }
+  openModal(id: string) {
+    this.modalService.open(id);
+}
 
+closeModal(id: string) {
+    this.modalService.close(id);
+}
 }
