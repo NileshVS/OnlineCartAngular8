@@ -31,6 +31,7 @@ export class productServices{
     private forgotPasswordURL = "http://localhost:4000/api/reset-password";
     private addToCartURL="http://localhost:4000/api/add-to-cart";
     private userCartURL = "http://localhost:4000/api/usercart";
+    private updateCartURL = "http://localhost:4000/api/update-cart";
 
     constructor(private http: HttpClient){
         
@@ -136,5 +137,9 @@ export class productServices{
     userCart(){
         let token = JSON.parse(localStorage.getItem("currentUser"));
         return this.http.get(this.userCartURL, {headers: this.httpHeader.set('x-auth-token', token)});
+    }
+
+    updateCart(id,data){
+        return this.http.put(this.updateCartURL+ "/"+ id, JSON.stringify(data), {headers : this.httpHeader});
     }
 }

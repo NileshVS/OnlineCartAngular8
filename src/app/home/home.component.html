@@ -67,16 +67,28 @@
                 </div>                        
         </div>       
 </div>
-<jw-modal id="cart" *ngIf="isLoading == false">
-    <h1>My Cart</h1>
+<jw-modal id="cart" *ngIf="isLoading == false || updateToggle == true">
+    <h1>My Cart: ({{userCart.count}})</h1><p>Total checkout cost:</p><br>
     <div class="panel panel-primary" *ngFor="let cart of userCart.data">
           <div class="panel-heading">
                 <h3 class="panel-title">{{cart.name}}</h3>
           </div>
           <div class="panel-body">
-                <ul>
-                    <li>Quantity: {{cart.quantity}}</li>
+                <img src="{{cart.productImage}}" style="float:right;" class="img-responsive">
+                <ul class="cartItems">
+                    <li>Price: {{cart.price | currency:'INR'}}</li>
+                    <li>Quantity: {{cart.quantity}}</li> 
+                    <li>Total Price: {{cart.totalPrice | currency:'INR'}}</li>
+                    <li>Added to cart: {{cart.recordDate}}</li>
                 </ul>
+                <button class="btn btn-warning" (click)=updateDiag(cart._id)>Update</button>
+                <div *ngIf="updateToggle == true && updateProdId == cart._id">
+                        <form [formGroup]="formGrpUpdate" (ngSubmit)="update(formGrpUpdate.value)">
+                            <label>Quantity:</label>
+                            <input type="number" formControlName="quantity" value="{{cart.quantity}}" required>
+                            <button type="submit" [disabled]="!formGrpUpdate.valid" class="btn btn-success">Update Quantity</button>
+                        </form>
+                </div>
           </div>
     </div>
     <button (click)="closeModal('cart');">Close</button>    

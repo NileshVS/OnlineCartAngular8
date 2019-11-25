@@ -11,9 +11,12 @@ import { ModalService } from '../_modal';
 })
 export class HomeComponent implements OnInit {
   formGrp: FormGroup;
+  formGrpUpdate: FormGroup;
 
   prodId;
+  updateProdId;
   addToCart:Boolean= false;
+  updateToggle:Boolean= false;
   user;
   isUserAdmin: Boolean = false;
   pgData;
@@ -40,6 +43,10 @@ export class HomeComponent implements OnInit {
       })
     });
 
+    this.formGrpUpdate = this.fb.group({
+        'quantity': [""]
+      });
+
     this.ps.prodPagination().subscribe( item => {
       this.pgData = item;
       // console.log(this.pgData);
@@ -58,7 +65,7 @@ export class HomeComponent implements OnInit {
 
     this.ps.userCart().subscribe( item => {
         this.userCart = item;
-      console.log(this.userCart);
+      // console.log(this.userCart);
     });
   }
 
@@ -81,6 +88,7 @@ export class HomeComponent implements OnInit {
     console.log(currentData);
     this.ps.addToCart(currentData).subscribe( item =>{
         console.log(item);
+        this.ngOnInit();
     });
   }
 
@@ -90,5 +98,23 @@ export class HomeComponent implements OnInit {
 
   closeModal(id: string) {
     this.modalService.close(id);
+  }
+
+  updateDiag(id){
+    this.updateProdId = id;
+    if(this.updateToggle == false){
+      this.updateToggle = true;
+    }
+    else{
+      this.updateToggle = false;
+    }
+  }
+
+  update(value){
+    // console.log(value);
+    this.ps.updateCart(this.updateProdId, value).subscribe( item => {
+      // console.log(item);
+      this.ngOnInit();
+    });
   }
 }
