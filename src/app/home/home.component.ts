@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import {productServices} from '../shared/services/app.services';
 import { NgxSpinnerService } from "ngx-spinner";
 import {FormGroup,FormBuilder} from "@angular/forms";
-import { ModalService } from '../_modal';
+import {NavbarComponent} from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-home',
@@ -14,20 +14,15 @@ export class HomeComponent implements OnInit {
   formGrpUpdate: FormGroup;
 
   prodId;
-  updateProdId;
-  deleteProdId;
-  deleteToggle:Boolean = false;
-  addToCart:Boolean= false;
-  updateToggle:Boolean= false;
   user;
   isUserAdmin: Boolean = false;
   pgData;
-  userCart;
   isLoading:Boolean;
   p:number=1;
   searchFilter: any = {name: ''}; //searchFilter model for custom pipe
+  addToCart: boolean;
   
-  constructor(private ps: productServices, private spinner: NgxSpinnerService, private fb: FormBuilder, private modalService: ModalService) { }
+  constructor(private ps: productServices, private spinner: NgxSpinnerService, private fb: FormBuilder, private nav: NavbarComponent) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -44,11 +39,7 @@ export class HomeComponent implements OnInit {
         'quantity': [""]
       })
     });
-
-    this.formGrpUpdate = this.fb.group({
-        'quantity': [""]
-      });
-
+    
     this.ps.prodPagination().subscribe( item => {
       this.pgData = item;
       // console.log(this.pgData);
@@ -64,11 +55,6 @@ export class HomeComponent implements OnInit {
         this.isUserAdmin = false;
       }
     });
-
-    this.ps.userCart().subscribe( item => {
-        this.userCart = item;
-      // console.log(this.userCart);
-    });
   }
 
   a2c(pId){
@@ -82,27 +68,6 @@ export class HomeComponent implements OnInit {
     // console.log(pId);
   }
   
-  updateDiag(id){
-    this.updateProdId = id;
-    if(this.updateToggle == false){
-      this.updateToggle = true;
-    }
-    else{
-      this.updateToggle = false;
-    }
-  }
-
-  removeDiag(id){
-    this.deleteProdId = id;
-    if(this.deleteToggle == false){
-      this.deleteToggle = true;
-      return;
-    }
-    else{
-      this.deleteToggle = false;
-    }
-  }
-
   addToMyCart(data){
     alert("Item added successfully");
     this.addToCart = false;
@@ -111,30 +76,7 @@ export class HomeComponent implements OnInit {
     // console.log(currentData);
     this.ps.addToCart(currentData).subscribe( item =>{
         // console.log(item);
-        this.ngOnInit();
+        this.nav.ngOnInit();
     });
-  }
-
-  openModal(id: string) {
-    this.modalService.open(id);
-  }
-
-  closeModal(id: string) {
-    this.modalService.close(id);
-  }
-
-  
-
-  update(value){
-    // console.log(value);
-    this.ps.updateCart(this.updateProdId, value).subscribe( item => {
-      // console.log(item);
-      this.ngOnInit();
-    });
-  }
-
-  removeConfirm(){
-    this.ps.removeCart(this.deleteProdId).subscribe();
-    this.ngOnInit();
   }
 }

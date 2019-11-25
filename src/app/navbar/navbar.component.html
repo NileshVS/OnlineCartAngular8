@@ -24,10 +24,43 @@
             <li>
             <a *ngIf ="user" (click)="logout()">Logout</a>
             </li>
-            <li><a *ngIf ="user" (click)="openModal('cart')">My Cart<span class="badge">42</span></a></li>
+            <li><a *ngIf ="user" (click)="openModal('cart')">My Cart<span class="badge">{{userCart.count}}</span></a></li>
         </ul>
     </div><!-- /.navbar-collapse -->
 </nav>
+
 <div class="container" style="margin-top: 80px;">
-    <router-outlet></router-outlet>    
+    <jw-modal id="cart">
+        <h1>My Cart: ({{userCart.count}})</h1>
+        <div class="panel panel-primary" *ngFor="let cart of userCart.data">
+                <div class="panel-heading">
+                      <h3 class="panel-title">{{cart.name}}</h3>
+                </div>
+                <div class="panel-body">
+                      <img src="{{cart.productImage}}" style="float:right;" class="img-responsive">
+                      <ul class="cartItems">
+                          <li>Price: {{cart.price | currency:'INR'}}</li>
+                          <li>Quantity: {{cart.quantity}}</li> 
+                          <li>Total Price: {{cart.totalPrice | currency:'INR'}}</li>
+                          <li>Added to cart: {{cart.recordDate}}</li>
+                      </ul>
+                      <button class="btn btn-warning" (click)=updateDiag(cart._id)>Update</button>
+                      <div *ngIf="updateToggle == true && updateProdId == cart._id">
+                              <form [formGroup]="formGrpUpdate" (ngSubmit)="update(formGrpUpdate.value)">
+                                  <label>Quantity:</label>
+                                  <input type="number" formControlName="quantity" value="{{cart.quantity}}" required>
+                                  <button type="submit" [disabled]="!formGrpUpdate.valid" class="btn btn-success">Update Quantity</button>
+                              </form>
+                      </div>
+                      <button class="btn btn-danger" (click)="removeDiag(cart._id)">Remove</button>
+                      <div class="well" *ngIf="deleteToggle == true && cart._id == deleteProdId">
+                          <p>Remove from My Cart?</p>
+                          <button class="btn btn-success" (click)="removeDiag(cart._id)">No</button>
+                          <button class="btn btn-danger" (click)="removeConfirm()">Yes</button>                
+                      </div>
+                </div>
+          </div>
+        <button (click)="closeModal('cart');">Close</button>
+    </jw-modal>
+    <router-outlet></router-outlet>  
 </div>

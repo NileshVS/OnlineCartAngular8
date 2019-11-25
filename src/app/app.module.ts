@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
+import { ModalModule } from './_modal';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import { ProductComponent } from './product/product.component';
@@ -14,7 +15,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { SubcategoryComponent } from './subcategory/subcategory.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import {ModalModule} from './_modal';
 
 @NgModule({
   declarations: [
@@ -30,12 +30,12 @@ import {ModalModule} from './_modal';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    ModalModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
     NgxPaginationModule,
     FilterPipeModule,
-    NgxSpinnerModule,
-    ModalModule
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
