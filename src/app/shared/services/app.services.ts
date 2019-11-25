@@ -32,6 +32,7 @@ export class productServices{
     private addToCartURL="http://localhost:4000/api/add-to-cart";
     private userCartURL = "http://localhost:4000/api/usercart";
     private updateCartURL = "http://localhost:4000/api/update-cart";
+    private removeCartItemURL = "http://localhost:4000/api/delete-cart";
 
     constructor(private http: HttpClient){
         
@@ -141,5 +142,9 @@ export class productServices{
 
     updateCart(id,data){
         return this.http.put(this.updateCartURL+ "/"+ id, JSON.stringify(data), {headers : this.httpHeader});
+    }
+
+    removeCart(id){
+        return this.http.delete(this.removeCartItemURL+ "/"+ id, {headers : this.httpHeader});
     }
 }

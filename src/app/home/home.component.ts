@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit {
 
   prodId;
   updateProdId;
+  deleteProdId;
+  deleteToggle:Boolean = false;
   addToCart:Boolean= false;
   updateToggle:Boolean= false;
   user;
@@ -79,15 +81,36 @@ export class HomeComponent implements OnInit {
     }
     // console.log(pId);
   }
+  
+  updateDiag(id){
+    this.updateProdId = id;
+    if(this.updateToggle == false){
+      this.updateToggle = true;
+    }
+    else{
+      this.updateToggle = false;
+    }
+  }
+
+  removeDiag(id){
+    this.deleteProdId = id;
+    if(this.deleteToggle == false){
+      this.deleteToggle = true;
+      return;
+    }
+    else{
+      this.deleteToggle = false;
+    }
+  }
 
   addToMyCart(data){
     alert("Item added successfully");
     this.addToCart = false;
     let currentData = data;
     currentData.cartDetails.prodId = this.prodId;
-    console.log(currentData);
+    // console.log(currentData);
     this.ps.addToCart(currentData).subscribe( item =>{
-        console.log(item);
+        // console.log(item);
         this.ngOnInit();
     });
   }
@@ -100,15 +123,7 @@ export class HomeComponent implements OnInit {
     this.modalService.close(id);
   }
 
-  updateDiag(id){
-    this.updateProdId = id;
-    if(this.updateToggle == false){
-      this.updateToggle = true;
-    }
-    else{
-      this.updateToggle = false;
-    }
-  }
+  
 
   update(value){
     // console.log(value);
@@ -116,5 +131,10 @@ export class HomeComponent implements OnInit {
       // console.log(item);
       this.ngOnInit();
     });
+  }
+
+  removeConfirm(){
+    this.ps.removeCart(this.deleteProdId).subscribe();
+    this.ngOnInit();
   }
 }

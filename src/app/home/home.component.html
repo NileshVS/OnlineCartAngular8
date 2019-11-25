@@ -23,7 +23,17 @@
                                                                 <li><span style="font-weight: bold;">Offer available</span>: {{prod.isTodayOffer}}</li>
                                                                 <li><span style="font-weight: bold;">Entry date</span>: {{prod.recordDate}}</li>                                      
                                                                 <li *ngIf = "prod.updatedDate"><span style="font-weight: bold;">Last updated</span>: {{prod.updatedDate}}</li>
-                                                            </ul>            
+                                                            </ul>  
+                                                            <button type="button" class="btn btn-danger" (click)="a2c(prod._id)">Add to my cart</button>
+                                                            <div class="well"  *ngIf="addToCart == true && prodId == prod._id">
+                                                                <form [formGroup]="formGrp" (ngSubmit)="addToMyCart(formGrp.value)" role="form">
+                                                                    <div class="form-group" formGroupName="cartDetails">
+                                                                        <label>Quantity:</label>
+                                                                        <input type="number" formControlName="quantity" placeholder="Quantity" required>
+                                                                    </div>                                                    
+                                                                <button [disabled]="!formGrp.valid" type="submit" class="btn btn-primary">Add</button>
+                                                                </form> 
+                                                            </div>          
                                                         </div>                            
                                                 </div>
                                                 <div class="panel panel-danger" *ngIf="(pgData.productData | filterBy: searchFilter).length === 0">
@@ -67,7 +77,7 @@
                 </div>                        
         </div>       
 </div>
-<jw-modal id="cart" *ngIf="isLoading == false || updateToggle == true">
+<jw-modal id="cart" *ngIf="isLoading == false || updateToggle == true || deleteToggle == true">
     <h1>My Cart: ({{userCart.count}})</h1><p>Total checkout cost:</p><br>
     <div class="panel panel-primary" *ngFor="let cart of userCart.data">
           <div class="panel-heading">
@@ -89,7 +99,13 @@
                             <button type="submit" [disabled]="!formGrpUpdate.valid" class="btn btn-success">Update Quantity</button>
                         </form>
                 </div>
+                <button class="btn btn-danger" (click)="removeDiag(cart._id)">Remove</button>
+                <div class="well" *ngIf="deleteToggle == true && cart._id == deleteProdId">
+                    <p>Remove from My Cart?</p>
+                    <button class="btn btn-success" (click)="removeDiag(cart._id)">No</button>
+                    <button class="btn btn-danger" (click)="removeConfirm()">Yes</button>                
+                </div>
           </div>
     </div>
-    <button (click)="closeModal('cart');">Close</button>    
+    <button class="btn btn-danger" (click)="closeModal('cart');">Close My Cart</button>
 </jw-modal>

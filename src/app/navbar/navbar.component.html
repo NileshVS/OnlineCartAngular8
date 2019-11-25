@@ -14,8 +14,8 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav navbar-left">
             <li ><a routerLink="/home">Home</a></li>
-            <li *ngIf="this.isAdmin == true"><a routerLink="/product">Products</a></li>
-            <li *ngIf="this.isAdmin == true"><a routerLink="/subcat">Manage</a></li>
+            <li *ngIf="this.isAdmin == true"><a routerLink="/product">Manage Products</a></li>
+            <li *ngIf="this.isAdmin == true"><a routerLink="/subcat">Manage Categories & Sub-categories</a></li>
         </ul>
         
         <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
@@ -24,7 +24,7 @@
             <li>
             <a *ngIf ="user" (click)="logout()">Logout</a>
             </li>
-            <li><a (click)="openModal('cart')">Cart<span class="badge">42</span></a></li>
+            <li><a (click)="openModal('cart')">My Cart<span class="badge">42</span></a></li>
         </ul>
     </div><!-- /.navbar-collapse -->
 </nav>
