@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {productServices} from '../shared/services/app.services';
 import {FormBuilder, Validator, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+import {NavbarComponent} from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   formGrpForgot: FormGroup;
 
   messages;
-  constructor(private ps: productServices, private fb: FormBuilder, private router: Router) { }
+  constructor(private ps: productServices, private fb: FormBuilder, private router: Router, private nav : NavbarComponent) { }
 
   ngOnInit() {
     this.formGrpLogin = this.fb.group({
@@ -78,6 +79,9 @@ export class LoginComponent implements OnInit {
       }
       if(this.messages.token){
         this.router.navigateByUrl('/home');
+        setTimeout(() => {
+          this.nav.ngOnInit();
+        }, 1000);
         alert("Login Successful");
       }
     });

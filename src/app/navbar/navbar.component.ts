@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   this.user = localStorage.getItem('currentUsername');
   this.isAdmin = localStorage.getItem('isAdmin');
   if(!this.user){
-    this.user = 'Guest';
+    this.user = undefined;
   }
   if(!this.isAdmin){
     this.isAdmin = false;
