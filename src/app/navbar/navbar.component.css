@@ -1,0 +1,9 @@
+.img-responsive{
+    height: 150px;
+    width: 150px;
+    border: 2px solid black;
+}
+
+ul.cartItems{
+    font-weight: bold;
+}
