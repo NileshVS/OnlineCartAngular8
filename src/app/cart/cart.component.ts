@@ -13,13 +13,17 @@ export class CartComponent implements OnInit {
   formGrpUpdate: FormGroup;
   userCart: Object;
   updateProdId: any;
-  updateToggle: boolean;
+  updateToggle: boolean = false;
   deleteProdId: any;
-  deleteToggle: boolean;
+  deleteToggle: boolean =false;
+  items;
 
   constructor(private ps: productServices, private spinner: NgxSpinnerService, private fb: FormBuilder) { }
 
   ngOnInit() {
+    let localCart = JSON.parse(localStorage.getItem('cart'));
+      this.items = localCart.data.reduce((prevValue, nextValue )=> prevValue + nextValue.totalPrice * nextValue.quantity, 0);
+      // console.log(items);
     this.spinner.show();
     this.isLoading = true;
     setTimeout(() => {
@@ -35,6 +39,7 @@ export class CartComponent implements OnInit {
     this.ps.userCart().subscribe( item => {
       this.userCart = item;
     // console.log(this.userCart);
+      localStorage.setItem('cart', JSON.stringify(this.userCart));
     });
   }
 
