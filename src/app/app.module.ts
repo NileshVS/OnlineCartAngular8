@@ -15,6 +15,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { SubcategoryComponent } from './subcategory/subcategory.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ProductComponent,
     LoginComponent,
     SubcategoryComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

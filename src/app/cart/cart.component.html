@@ -1,0 +1,36 @@
+<div class="container" style='background-color: white;' >
+    <ngx-spinner></ngx-spinner>
+</div>
+<div class="row">
+    <div class="col-lg-12" *ngIf="isLoading == false">
+            <h1>My Cart: ({{userCart.count}})</h1>
+            <div class="panel panel-primary" *ngFor="let cart of userCart.data">
+                    <div class="panel-heading">
+                          <h3 class="panel-title">{{cart.name}}</h3>
+                    </div>
+                    <div class="panel-body">
+                          <img src="{{cart.productImage}}" style="float:right;" class="img-responsive">
+                          <ul class="cartItems">
+                              <li>Price: {{cart.price | currency:'INR'}}</li>
+                              <li>Quantity: {{cart.quantity}}</li> 
+                              <li>Total Price: {{cart.totalPrice | currency:'INR'}}</li>
+                              <li>Added to cart: {{cart.recordDate}}</li>
+                          </ul>
+                          <button class="btn btn-warning" (click)=updateDiag(cart._id)>Update</button>
+                          <div *ngIf="updateToggle == true && updateProdId == cart._id">
+                                  <form [formGroup]="formGrpUpdate" (ngSubmit)="update(formGrpUpdate.value)">
+                                      <label>Quantity:</label>
+                                      <input type="number" formControlName="quantity" value="{{cart.quantity}}" required>
+                                      <button type="submit" [disabled]="!formGrpUpdate.valid" class="btn btn-success">Update Quantity</button>
+                                  </form>
+                          </div>
+                          <button class="btn btn-danger" (click)="removeDiag(cart._id)">Remove</button>
+                          <div class="well" *ngIf="deleteToggle == true && cart._id == deleteProdId">
+                              <p>Remove from My Cart?</p>
+                              <button class="btn btn-success" (click)="removeDiag(cart._id)">No</button>
+                              <button class="btn btn-danger" (click)="removeConfirm()">Yes</button>                
+                          </div>
+                    </div>
+              </div>
+    </div>
+</div>

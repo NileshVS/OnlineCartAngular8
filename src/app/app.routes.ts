@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import {AuthGuard} from '../app/authGuard/guard';
 import {RepeatLoginAuthGuard} from '../app/authGuard/repeatLoginGuard';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { CartComponent } from './cart/cart.component';
 
 export const appRoutes: Routes = [
     {
@@ -36,5 +37,10 @@ export const appRoutes: Routes = [
     {
         path: 'reset/:id',
         component: ForgotPasswordComponent
+    },
+    {
+        path: "cart",
+        component: CartComponent,
+        canActivate: [AuthGuard]
     }
 ];
