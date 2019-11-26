@@ -93,6 +93,7 @@ export class LoginComponent implements OnInit {
       this.messages =item;
       if(this.messages.msg){
         alert(`${this.messages.msg}`);
+        this.isRegister = false;
       }
       if(this.messages.exist){
         alert("User already exist!");
@@ -108,6 +109,7 @@ export class LoginComponent implements OnInit {
         alert('Email ID not found');
       }
       if(this.messages.mailCheck){
+        this.isForgotten = false;
         alert("Check your mail for further instructions");
       }
     })

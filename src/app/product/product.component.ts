@@ -41,7 +41,7 @@ export class ProductComponent implements OnInit {
           /** spinner ends after 5 seconds */
           this.spinner.hide();
           this.isLoading = false;
-        }, 3000);
+        }, 2000);
     
 
     this.formGrp= this.fb.group({
@@ -165,11 +165,9 @@ export class ProductComponent implements OnInit {
 
   //Updates product
   updateNewProduct(data){
+    this.updateProd = false;
     this.ps.updateProduct(data, this.updateProdId).subscribe( item => {
       // console.log(item);
-      this.ps.productDetails().subscribe(item => {
-        this.pgData = item;
-      });
       });
       alert("Product updated successfully");
       this.ngOnInit();
